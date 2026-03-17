@@ -142,19 +142,42 @@ function calcular(seccion) {
   }
 }
 
-function enviar() {
-  const totalActual = Number(document.getElementById("total-actual").textContent);
-  const totalPreferido = Number(document.getElementById("total-preferido").textContent);
+async function enviar() {
+  const actual = document.querySelectorAll("#actual input");
+  const pref = document.querySelectorAll("#preferido input");
 
-  if (totalActual !== 100 || totalPreferido !== 100) {
+  const data = {
+    A_actual: Number(actual[0].value),
+    B_actual: Number(actual[1].value),
+    C_actual: Number(actual[2].value),
+    D_actual: Number(actual[3].value),
+    A_pref: Number(pref[0].value),
+    B_pref: Number(pref[1].value),
+    C_pref: Number(pref[2].value),
+    D_pref: Number(pref[3].value)
+  };
+
+  const totalActual = data.A_actual + data.B_actual + data.C_actual + data.D_actual;
+  const totalPref = data.A_pref + data.B_pref + data.C_pref + data.D_pref;
+
+  if (totalActual !== 100 || totalPref !== 100) {
     alert("Ambos bloques deben sumar 100");
     return;
   }
 
-  alert("Formulario válido ✅");
+  try {
+    await fetch("https://script.google.com/macros/s/AKfycbxnX-yc4NnvwFKIRF3fSXzw5y6msYjGMNoMzxUcmgYnS1jt85lYsbkIpl_KwrULdt0L/exec", {
+      method: "POST",
+      body: JSON.stringify(data),
+      mode: "no-cors"
+    });
 
-  // AQUÍ conectarías con Power Automate
-  // fetch("URL_AQUI", {...})
+    alert("Datos enviados correctamente ✅");
+
+  } catch (error) {
+    alert("Error al enviar ❌");
+    console.error(error);
+  }
 }
 </script>
 
