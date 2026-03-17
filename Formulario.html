@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Evaluación de Cultura Organizacional</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7fa;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      margin-top: 30px;
+      color: #333;
+    }
+
+    .row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .row label {
+      flex: 1;
+    }
+
+    .row input {
+      width: 80px;
+      padding: 5px;
+      text-align: center;
+    }
+
+    .total {
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .error {
+      color: red;
+      font-size: 14px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Evaluación de Cultura Organizacional</h1>
+  <p>Distribuye 100 puntos entre las opciones A, B, C y D.</p>
+
+  <!-- BLOQUE ACTUAL -->
+  <h2>1. Cultura Actual</h2>
+
+  <div id="actual">
+    <div class="row">
+      <label>A. Ambiente familiar y cercano</label>
+      <input type="number" min="0" onchange="calcular('actual')">
+    </div>
+    <div class="row">
+      <label>B. Orientado a resultados y competencia</label>
+      <input type="number" min="0" onchange="calcular('actual')">
+    </div>
+    <div class="row">
+      <label>C. Innovación y toma de riesgos</label>
+      <input type="number" min="0" onchange="calcular('actual')">
+    </div>
+    <div class="row">
+      <label>D. Control, normas y estructura</label>
+      <input type="number" min="0" onchange="calcular('actual')">
+    </div>
+
+    <div class="total">Total: <span id="total-actual">0</span></div>
+    <div class="error" id="error-actual"></div>
+  </div>
+
+  <!-- BLOQUE PREFERIDO -->
+  <h2>2. Cultura Preferida</h2>
+
+  <div id="preferido">
+    <div class="row">
+      <label>A. Ambiente familiar y cercano</label>
+      <input type="number" min="0" onchange="calcular('preferido')">
+    </div>
+    <div class="row">
+      <label>B. Orientado a resultados y competencia</label>
+      <input type="number" min="0" onchange="calcular('preferido')">
+    </div>
+    <div class="row">
+      <label>C. Innovación y toma de riesgos</label>
+      <input type="number" min="0" onchange="calcular('preferido')">
+    </div>
+    <div class="row">
+      <label>D. Control, normas y estructura</label>
+      <input type="number" min="0" onchange="calcular('preferido')">
+    </div>
+
+    <div class="total">Total: <span id="total-preferido">0</span></div>
+    <div class="error" id="error-preferido"></div>
+  </div>
+
+  <button onclick="enviar()">Enviar</button>
+</div>
+
+<script>
+function calcular(seccion) {
+  const inputs = document.querySelectorAll(`#${seccion} input`);
+  let total = 0;
+
+  inputs.forEach(input => {
+    total += Number(input.value) || 0;
+  });
+
+  document.getElementById(`total-${seccion}`).textContent = total;
+
+  if (total !== 100) {
+    document.getElementById(`error-${seccion}`).textContent = "La suma debe ser 100";
+  } else {
+    document.getElementById(`error-${seccion}`).textContent = "";
+  }
+}
+
+function enviar() {
+  const totalActual = Number(document.getElementById("total-actual").textContent);
+  const totalPreferido = Number(document.getElementById("total-preferido").textContent);
+
+  if (totalActual !== 100 || totalPreferido !== 100) {
+    alert("Ambos bloques deben sumar 100");
+    return;
+  }
+
+  alert("Formulario válido ✅");
+
+  // AQUÍ conectarías con Power Automate
+  // fetch("URL_AQUI", {...})
+}
+</script>
+
+</body>
+</html>
